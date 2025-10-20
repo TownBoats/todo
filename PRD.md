@@ -434,6 +434,3 @@ WantedBy=multi-user.target
 * 游标：`ORDER BY updated_at ASC, id ASC LIMIT :limit`；将 `(updated_at,id)` 编码为 `next_cursor`
 * 全局异常：捕获 `HTTPException`/`RequestValidationError` 输出统一错误结构并附 `requestId`
 
----
-
-此修订版已落实：**删除传播（软删墓碑）**、**稳定增量游标**、**Nginx 反代与前缀一致**、**SQLite 绝对路径与 WAL/外键**、**统一错误格式**、**UTC 时间**、**登录限流**、**开发 CORS** 等关键修正，可直接用于执行与验收。
