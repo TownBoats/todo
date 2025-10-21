@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { syncEventEmitter, SyncEventType } from '@/utils/sync'
+import { syncEventEmitter, SyncEventTypeValues } from '@/utils/sync'
 
 export interface NetworkStatus {
   isOnline: boolean
@@ -84,7 +84,7 @@ export function useNetworkStatus(options: NetworkStatusOptions = {}) {
 
         // 发出网络状态变化事件
         syncEventEmitter.emit({
-          type: isOnline ? SyncEventType.NETWORK_ONLINE : SyncEventType.NETWORK_OFFLINE,
+          type: isOnline ? SyncEventTypeValues.NETWORK_ONLINE : SyncEventTypeValues.NETWORK_OFFLINE,
           timestamp: now,
           data: newStatus,
         })

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useTodos } from '@/hooks/useTodos'
 import { useNetworkStatus } from '@/hooks/useNetworkStatus'
-import { syncEventEmitter, SyncEventType, syncUtils } from '@/utils/sync'
+import { syncEventEmitter, SyncEventTypeValues, syncUtils } from '@/utils/sync'
 import { LoadingSpinner } from '@/components/layout/LoadingSpinner'
 
 interface SyncStatusProps {
@@ -97,14 +97,14 @@ export function SyncStatus({
       }, 5000)
     }
 
-    syncEventEmitter.on(SyncEventType.SYNC_STARTED, handleSyncStarted)
-    syncEventEmitter.on(SyncEventType.SYNC_COMPLETED, handleSyncCompleted)
-    syncEventEmitter.on(SyncEventType.SYNC_FAILED, handleSyncFailed)
+    syncEventEmitter.on(SyncEventTypeValues.SYNC_STARTED, handleSyncStarted)
+    syncEventEmitter.on(SyncEventTypeValues.SYNC_COMPLETED, handleSyncCompleted)
+    syncEventEmitter.on(SyncEventTypeValues.SYNC_FAILED, handleSyncFailed)
 
     return () => {
-      syncEventEmitter.off(SyncEventType.SYNC_STARTED, handleSyncStarted)
-      syncEventEmitter.off(SyncEventType.SYNC_COMPLETED, handleSyncCompleted)
-      syncEventEmitter.off(SyncEventType.SYNC_FAILED, handleSyncFailed)
+      syncEventEmitter.off(SyncEventTypeValues.SYNC_STARTED, handleSyncStarted)
+      syncEventEmitter.off(SyncEventTypeValues.SYNC_COMPLETED, handleSyncCompleted)
+      syncEventEmitter.off(SyncEventTypeValues.SYNC_FAILED, handleSyncFailed)
     }
   }, [])
 

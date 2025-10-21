@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: todo-backend:latest
+    container_name: todo-backend
+    restart: unless-stopped
+    environment:
+      - DB_URL=sqlite:////data/todo.db
+      - SECRET_KEY=${SECRET_KEY}
+      - CORS_ORIGINS=["http://localhost:3000", "https://your-domain.com"]
+      - LOG_LEVEL=INFO
+    volumes:
+      - backend_data:/data
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  backend_data:
+    driver: local

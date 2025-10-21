@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNetworkStatus } from '@/hooks/useNetworkStatus'
-import { syncEventEmitter, SyncEventType } from '@/utils/sync'
+import { syncEventEmitter, SyncEventTypeValues } from '@/utils/sync'
 
 interface NetworkStatusProps {
   showOnlyWhenOffline?: boolean
@@ -53,12 +53,12 @@ export function NetworkStatus({
       setShowOfflineBanner(false)
     }
 
-    syncEventEmitter.on(SyncEventType.NETWORK_OFFLINE, handleOffline)
-    syncEventEmitter.on(SyncEventType.NETWORK_ONLINE, handleOnline)
+    syncEventEmitter.on(SyncEventTypeValues.NETWORK_OFFLINE, handleOffline)
+    syncEventEmitter.on(SyncEventTypeValues.NETWORK_ONLINE, handleOnline)
 
     return () => {
-      syncEventEmitter.off(SyncEventType.NETWORK_OFFLINE, handleOffline)
-      syncEventEmitter.off(SyncEventType.NETWORK_ONLINE, handleOnline)
+      syncEventEmitter.off(SyncEventTypeValues.NETWORK_OFFLINE, handleOffline)
+      syncEventEmitter.off(SyncEventTypeValues.NETWORK_ONLINE, handleOnline)
     }
   }, [])
 

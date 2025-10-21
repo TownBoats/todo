@@ -19,23 +19,16 @@ export const useAuth = () => {
 
   const loginMutation = useMutation({
     mutationFn: (credentials: LoginCredentials) => authService.login(credentials),
-    onSuccess: (data, variables, context) => {
+    onSuccess: (data) => {
       setUser(data.user)
       queryClient.invalidateQueries({ queryKey: ['auth'] })
-      // 如果有自定义的onSuccess回调，则执行它
-      if (context?.onSuccess) {
-        context.onSuccess()
-      }
     },
   })
 
   const registerMutation = useMutation({
     mutationFn: (data: RegisterData) => authService.register(data),
-    onSuccess: (data, variables, context) => {
-      // 如果有自定义的onSuccess回调，则执行它
-      if (context?.onSuccess) {
-        context.onSuccess()
-      }
+    onSuccess: () => {
+      // 注册成功，可以在这里添加额外逻辑
     },
   })
 

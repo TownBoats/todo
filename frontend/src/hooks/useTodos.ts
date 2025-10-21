@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useCallback } from 'react'
 import { todosService } from '@/services/todos'
-import { syncStorage, SYNC_CONFIG, syncEventEmitter, SyncEventType } from '@/utils/sync'
+import { syncStorage, SYNC_CONFIG, syncEventEmitter, SyncEventTypeValues } from '@/utils/sync'
 import { DataMerger, type TodoChange } from '@/utils/dataMerger'
 
 // 本地类型定义 - 避免导入问题
@@ -71,7 +71,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
         // 发出同步完成事件
         syncEventEmitter.emit({
-          type: SyncEventType.SYNC_COMPLETED,
+          type: SyncEventTypeValues.SYNC_COMPLETED,
           timestamp: Date.now(),
           data: { todosCount: response.items.length },
         })
@@ -82,7 +82,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
         // 发出同步失败事件
         syncEventEmitter.emit({
-          type: SyncEventType.SYNC_FAILED,
+          type: SyncEventTypeValues.SYNC_FAILED,
           timestamp: Date.now(),
           error: error as Error,
         })
@@ -139,7 +139,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
       // 发出同步开始事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_STARTED,
+        type: SyncEventTypeValues.SYNC_STARTED,
         timestamp: Date.now(),
         data: { operation: 'create', tempId },
       })
@@ -167,7 +167,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
       // 发出同步完成事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_COMPLETED,
+        type: SyncEventTypeValues.SYNC_COMPLETED,
         timestamp: Date.now(),
         data: { operation: 'create', todo: newTodo },
       })
@@ -203,7 +203,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
       // 发出同步开始事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_STARTED,
+        type: SyncEventTypeValues.SYNC_STARTED,
         timestamp: Date.now(),
         data: { operation: 'update', id, data },
       })
@@ -220,7 +220,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
     onSuccess: (updatedTodo, variables, context) => {
       // 发出同步完成事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_COMPLETED,
+        type: SyncEventTypeValues.SYNC_COMPLETED,
         timestamp: Date.now(),
         data: { operation: 'update', todo: updatedTodo },
       })
@@ -248,7 +248,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
 
       // 发出同步开始事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_STARTED,
+        type: SyncEventTypeValues.SYNC_STARTED,
         timestamp: Date.now(),
         data: { operation: 'delete', id },
       })
@@ -265,7 +265,7 @@ export const useTodos = (options: UseTodosOptions = {}) => {
     onSuccess: (deletedId, variables, context) => {
       // 发出同步完成事件
       syncEventEmitter.emit({
-        type: SyncEventType.SYNC_COMPLETED,
+        type: SyncEventTypeValues.SYNC_COMPLETED,
         timestamp: Date.now(),
         data: { operation: 'delete', id: deletedId },
       })

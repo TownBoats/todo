@@ -84,22 +84,25 @@ export const SYNC_CONFIG = {
 } as const
 
 // 同步错误类型
-export enum SyncErrorType {
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  AUTH_ERROR = 'AUTH_ERROR',
-  SERVER_ERROR = 'SERVER_ERROR',
-  UNKNOWN_ERROR = 'UNKNOWN_ERROR',
-}
+export const SyncErrorType = {
+  NETWORK_ERROR: 'NETWORK_ERROR',
+  AUTH_ERROR: 'AUTH_ERROR',
+  SERVER_ERROR: 'SERVER_ERROR',
+  UNKNOWN_ERROR: 'UNKNOWN_ERROR',
+} as const
 
 // 同步事件类型
-export enum SyncEventType {
-  SYNC_STARTED = 'SYNC_STARTED',
-  SYNC_COMPLETED = 'SYNC_COMPLETED',
-  SYNC_FAILED = 'SYNC_FAILED',
-  SYNC_CONFLICT = 'SYNC_CONFLICT',
-  NETWORK_ONLINE = 'NETWORK_ONLINE',
-  NETWORK_OFFLINE = 'NETWORK_OFFLINE',
-}
+export const SyncEventTypeValues = {
+  SYNC_STARTED: 'SYNC_STARTED',
+  SYNC_COMPLETED: 'SYNC_COMPLETED',
+  SYNC_FAILED: 'SYNC_FAILED',
+  SYNC_CONFLICT: 'SYNC_CONFLICT',
+  NETWORK_ONLINE: 'NETWORK_ONLINE',
+  NETWORK_OFFLINE: 'NETWORK_OFFLINE',
+} as const
+
+// 同步事件类型定义
+export type SyncEventType = typeof SyncEventTypeValues[keyof typeof SyncEventTypeValues]
 
 // 同步事件接口
 export interface SyncEvent {
