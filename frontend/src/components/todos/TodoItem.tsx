@@ -7,9 +7,10 @@ interface TodoItemProps {
   onToggle: (id: string, done: boolean) => void
   onDelete: (id: string) => void
   onUpdateTitle: (id: string, title: string) => void
+  disabled?: boolean
 }
 
-function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) {
+function TodoItem({ todo, onToggle, onDelete, onUpdateTitle, disabled = false }: TodoItemProps) {
   const [isEditing, setIsEditing] = useState(false)
   const [editTitle, setEditTitle] = useState(todo.title)
   const [isUpdating, setIsUpdating] = useState(false)
@@ -62,8 +63,8 @@ function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) {
         {/* 复选框 */}
         <button
           onClick={handleToggle}
-          className="flex-shrink-0 h-5 w-5 rounded border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          disabled={isUpdating || isDeleting}
+          className="flex-shrink-0 h-5 w-5 rounded border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+          disabled={disabled || isUpdating || isDeleting}
         >
           {todo.done && (
             <svg className="h-5 w-5 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
@@ -84,16 +85,16 @@ function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) {
                   if (e.key === 'Escape') handleCancel()
                 }}
                 className="flex-1"
-                disabled={isUpdating}
+                disabled={disabled || isUpdating}
               />
               <Button
                 onClick={handleSave}
-                disabled={isUpdating || !editTitle.trim()}
+                disabled={disabled || isUpdating || !editTitle.trim()}
                 size="sm"
               >
                 Save
               </Button>
-              <Button onClick={handleCancel} variant="outline" size="sm">
+              <Button onClick={handleCancel} variant="outline" size="sm" disabled={disabled}>
                 Cancel
               </Button>
             </div>
@@ -103,14 +104,14 @@ function TodoItem({ todo, onToggle, onDelete, onUpdateTitle }: TodoItemProps) {
                 {todo.title}
               </h3>
               <div className="flex items-center space-x-2 opacity-0 hover:opacity-100 transition-opacity">
-                <Button onClick={handleEdit} variant="ghost" size="sm">
+                <Button onClick={handleEdit} variant="ghost" size="sm" disabled={disabled}>
                   Edit
                 </Button>
                 <Button
                   onClick={handleDelete}
                   variant="ghost"
                   size="sm"
-                  disabled={isDeleting}
+                  disabled={disabled || isDeleting}
                   className="text-red-600 hover:text-red-700"
                 >
                   {isDeleting ? 'Deleting...' : 'Delete'}
