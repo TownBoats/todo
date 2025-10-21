@@ -1,34 +1,11 @@
 import { apiClient, handleAPIError } from './api'
-
-// 本地类型定义 - 避免导入问题
-export interface Todo {
-  id: string
-  title: string
-  done: boolean
-  created_at: string
-  updated_at: string
-}
-
-export interface TodoCreate {
-  title: string
-}
-
-export interface TodoUpdate {
-  title?: string
-  done?: boolean
-}
-
-export interface TodosResponse {
-  items: Todo[]
-  next_cursor?: string
-  has_more: boolean
-}
+import type { Todo, TodoCreate, TodoUpdate, TodosResponse } from '@/types'
 
 export const todosService = {
-  async getTodos(updated_after?: string, limit: number = 50): Promise<TodosResponse> {
+  async getTodos(cursor?: string, limit: number = 50): Promise<TodosResponse> {
     try {
       const params = new URLSearchParams()
-      if (updated_after) params.append('updated_after', updated_after)
+      if (cursor) params.append('cursor', cursor)
       params.append('limit', limit.toString())
 
       const response = await apiClient.get<TodosResponse>(`/api/v1/todos/?${params}`)

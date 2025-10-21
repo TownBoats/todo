@@ -1,13 +1,6 @@
 import axios from 'axios'
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios'
 
-// API错误类型定义
-export interface APIError {
-  status: number
-  code: string
-  message: string
-  details?: any
-}
 
 // API基础配置
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
@@ -73,7 +66,7 @@ apiClient.interceptors.response.use(
 )
 
 // API错误处理
-export class APIErrorImpl extends Error {
+export class APIError extends Error {
   constructor(
     public status: number,
     public code: string,
@@ -92,7 +85,7 @@ export const handleAPIError = (error: AxiosError): APIError => {
     const errorData = data as any
 
     if (errorData?.error) {
-      return new APIErrorImpl(
+      return new APIError(
         status,
         errorData.error.code,
         errorData.error.message,
@@ -100,10 +93,10 @@ export const handleAPIError = (error: AxiosError): APIError => {
       )
     }
 
-    return new APIErrorImpl(status, 'UNKNOWN_ERROR', 'An unknown error occurred')
+    return new APIError(status, 'UNKNOWN_ERROR', 'An unknown error occurred')
   } else if (error.request) {
-    return new APIErrorImpl(0, 'NETWORK_ERROR', 'Network error occurred')
+    return new APIError(0, 'NETWORK_ERROR', 'Network error occurred')
   } else {
-    return new APIErrorImpl(0, 'REQUEST_ERROR', error.message || 'Request failed')
+    return new APIError(0, 'REQUEST_ERROR', error.message || 'Request failed')
   }
 }

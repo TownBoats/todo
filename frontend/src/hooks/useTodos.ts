@@ -19,12 +19,12 @@ interface TodoUpdate {
   done?: boolean
 }
 
-export const useTodos = (updated_after?: string, limit: number = 50) => {
+export const useTodos = (cursor?: string, limit: number = 50) => {
   const queryClient = useQueryClient()
 
   const todosQuery = useQuery({
-    queryKey: ['todos', { updated_after, limit }],
-    queryFn: () => todosService.getTodos(updated_after, limit),
+    queryKey: ['todos', { cursor, limit }],
+    queryFn: () => todosService.getTodos(cursor, limit),
     staleTime: 5 * 1000, // 5秒
     refetchInterval: 10 * 1000, // 10秒轮询
   })

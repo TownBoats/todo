@@ -5,10 +5,10 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { queryClient } from '@/stores/queryClient'
 
 // 页面组件
-import { Login } from '@/pages/auth/Login'
-import { Register } from '@/pages/auth/Register'
-import { TodoList } from '@/pages/todos/TodoList'
-import { NotFound } from '@/pages/NotFound'
+import Login from '@/pages/auth/Login'
+import Register from '@/pages/auth/Register'
+import TodoList from '@/pages/todos/TodoList'
+import NotFound from '@/pages/NotFound'
 
 // 布局组件
 import { Layout } from '@/components/layout/Layout'
